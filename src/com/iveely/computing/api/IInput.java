@@ -29,7 +29,8 @@ public abstract class IInput implements Cloneable {
      * @param conf
      * @param collector
      */
-    public abstract void start(HashMap<String, Object> conf, StreamChannel collector);
+    public void start(HashMap<String, Object> conf) {
+    }
 
     /**
      * Declare field to output.
@@ -41,13 +42,13 @@ public abstract class IInput implements Cloneable {
     /**
      * Next data.
      */
-    public abstract void nextTuple();
+    public abstract void nextTuple(StreamChannel channel);
 
     /**
      * Data to which output.
      *
      */
-    public abstract void toOutput();
+    public abstract void toOutput(StreamChannel channel);
 
     /**
      * Get name of the task.

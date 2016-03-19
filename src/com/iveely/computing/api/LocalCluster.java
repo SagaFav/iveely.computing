@@ -75,7 +75,7 @@ public class LocalCluster {
 		for (int i = outputConfig.size() - 1; i > -1; i--) {
 			IOutput output = outputConfig.get(i);
 			String name = output.getName();
-			logger.info(output.getName());
+			logger.info(name);
 			OutputExecutor executor = new OutputExecutor(builder.getName(), output, userConfig);
 			threadPool.execute(executor);
 		}
