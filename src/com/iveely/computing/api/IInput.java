@@ -64,7 +64,9 @@ public abstract class IInput implements Cloneable {
      *
      * @param conf
      */
-    public abstract void end(HashMap<String, Object> conf);
+    public void end(HashMap<String, Object> conf) {
+
+    }
 
     /**
      * Set public cache. Everyone can access it.

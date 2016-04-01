@@ -1,9 +1,5 @@
 package com.iveely.computing.config;
 
-import com.iveely.database.LocalStore;
-import com.iveely.database.storage.Types;
-import com.iveely.database.storage.Warehouse;
-
 /**
  * Configurator.
  *
@@ -15,7 +11,7 @@ public class Configurator {
     /**
      * Store warehouse.
      */
-    private static Warehouse warehouse;
+    // private static Warehouse warehouse;
 
     /**
      * Master's deploy.
@@ -26,12 +22,13 @@ public class Configurator {
      * Init.
      */
     private static void Init() {
-        if (warehouse == null) {
-            warehouse = LocalStore.getWarehouse("Config");
-            warehouse.createTable("MasterDeploy");
-            warehouse.createColumn("MasterDeploy", "port", Types.INTEGER, false);
-            warehouse.createColumn("MasterDeploy", "server", Types.STRING, false);
-        }
+        // if (warehouse == null) {
+        // warehouse = LocalStore.getWarehouse("Config");
+        // warehouse.createTable("MasterDeploy");
+        // warehouse.createColumn("MasterDeploy", "port", Types.INTEGER, false);
+        // warehouse.createColumn("MasterDeploy", "server", Types.STRING,
+        // false);
+        // }
     }
 
     /**
@@ -43,19 +40,19 @@ public class Configurator {
         Init();
 
         // 2. Load master.
-        if (master == null) {
-            master = MasterDeploy.GetDefault();
-            Object[] objs = warehouse.selectById("MasterDeploy", 0);
-            if (objs != null) {
-                master.setPort((int) objs[0]);
-                master.setHostAddress((String) objs[1]);
-            } else {
-                warehouse.insert("Config", new Object[]{
-                    master.getPort(),
-                    master.getHostAddress()
-                });
-            }
-        }
+        // if (master == null) {
+        // master = MasterDeploy.GetDefault();
+        // Object[] objs = warehouse.selectById("MasterDeploy", 0);
+        // if (objs != null) {
+        // master.setPort((int) objs[0]);
+        // master.setHostAddress((String) objs[1]);
+        // } else {
+        // warehouse.insert("Config", new Object[]{
+        // master.getPort(),
+        // master.getHostAddress()
+        // });
+        // }
+        // }
     }
 
     /**
@@ -100,7 +97,8 @@ public class Configurator {
         master.setHostAddress(address);
 
         // 3. Disk update.
-        warehouse.update("MasterDeploy", new Object[]{master.getPort(), master.getHostAddress()}, 0);
+        // warehouse.update("MasterDeploy", new Object[]{master.getPort(),
+        // master.getHostAddress()}, 0);
     }
 
     /**
@@ -117,6 +115,7 @@ public class Configurator {
         master.setPort(port);
 
         // 3. Disk update.
-        warehouse.update("MasterDeploy", new Object[]{master.getPort(), master.getHostAddress()}, 0);
+        // warehouse.update("MasterDeploy", new Object[]{master.getPort(),
+        // master.getHostAddress()}, 0);
     }
 }
