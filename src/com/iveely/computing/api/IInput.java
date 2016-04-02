@@ -32,12 +32,12 @@ public abstract class IInput implements Cloneable {
     public void start(HashMap<String, Object> conf) {
     }
 
-    /**
-     * Declare field to output.
-     *
-     * @param declarer
-     */
-    public abstract void declareOutputFields(FieldsDeclarer declarer);
+//    /**
+//     * Declare field to output.
+//     *
+//     * @param declarer
+//     */
+//    public abstract void declareOutputFields(FieldsDeclarer declarer);
 
     /**
      * Next data.

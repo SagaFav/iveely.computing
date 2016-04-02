@@ -32,12 +32,12 @@ public abstract class IOutput implements Cloneable {
 
 	}
 
-	/**
-	 * Declare field to output.
-	 *
-	 * @param declarer
-	 */
-	public abstract void declareOutputFields(FieldsDeclarer declarer);
+//	/**
+//	 * Declare field to output.
+//	 *
+//	 * @param declarer
+//	 */
+//	public abstract void declareOutputFields(FieldsDeclarer declarer);
 
 	/**
 	 * Process recived tuple.

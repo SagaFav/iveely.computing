@@ -13,61 +13,62 @@ import com.iveely.computing.zookeeper.ZookeeperClient;
  */
 public class InputExecutor extends IExecutor implements Runnable {
 
-	/**
-	 * Input worker.
-	 */
-	private final IInput _input;
+    /**
+     * Input worker.
+     */
+    private final IInput _input;
 
-	/**
-	 * Slot flag.
-	 */
-	private final Communicator.Slot _slot;
+    /**
+     * Slot flag.
+     */
+    private final Communicator.Slot _slot;
 
-	public InputExecutor(String name, IInput input, HashMap<String, Object> conf) {
-		this._input = input;
-		this._conf = conf;
-		this._deDeclarer = new FieldsDeclarer();
-		this._name = name;
-		this._collector = new StreamChannel(_input.getName(), name, this);
-		this._slot = Communicator.getInstance().selectSlot();
-		ZookeeperClient.getInstance().setNodeValue(
-				"/app/" + this._name + "/input/" + this._input.getClass().getName() + "/" + this._input.getName(),
-				this._slot.getConnectString());
-	}
+    public InputExecutor(String name, IInput input, HashMap<String, Object> conf) {
+        this._input = input;
+        this._conf = conf;
+        //this._deDeclarer = new FieldsDeclarer();
+        this._name = name;
+        this._collector = new StreamChannel(_input.getName(), name, this);
+        this._slot = Communicator.getInstance().selectSlot();
+        ZookeeperClient.getInstance().setNodeValue(
+                "/app/" + this._name + "/input/" + this._input.getClass().getName() + "/" + this._input.getName(),
+                this._slot.getConnectString());
+    }
 
-	@Override
-	public void run() {
-		try {
-			this._input.start(this._conf);
-			this._input.declareOutputFields(this._deDeclarer);
-			this._input.toOutput(this._collector);
-			while (!this._collector.hasEnd()) {
-				this._input.nextTuple(this._collector);
-			}
-			this._input.end(this._conf);
-		} catch (Exception e) {
-			StringBuilder error = new StringBuilder();
-			error.append(e.getMessage());
-			error.append("<br/>");
-			StackTraceElement[] trace = e.getStackTrace();
-			for (StackTraceElement s : trace) {
-				error.append("   ");
-				error.append(s);
-				error.append("<br/>");
-			}
-			ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/status/input/" + this._input.getName()
-					+ "/" + this._slot.getConnectString(), error.toString());
-			ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/finished", -1 + "");
-			ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/finished/" + this._input.getName(),
-					"Exception stopped.");
-		}
+    @Override
+    public void run() {
+        try {
+            this._input.start(this._conf);
+            //this._input.declareOutputFields(this._deDeclarer);
+            this._input.toOutput(this._collector);
+            while (!this._collector.hasEnd()) {
+                this._input.nextTuple(this._collector);
+            }
+            this._input.end(this._conf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            StringBuilder error = new StringBuilder();
+            error.append(e.getMessage());
+            error.append("<br/>");
+            StackTraceElement[] trace = e.getStackTrace();
+            for (StackTraceElement s : trace) {
+                error.append("   ");
+                error.append(s);
+                error.append("<br/>");
+            }
+            ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/status/input/" + this._input.getName()
+                    + "/" + this._slot.getConnectString(), error.toString());
+            ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/finished", -1 + "");
+            ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/finished/" + this._input.getName(),
+                    "Exception stopped.");
+        }
 
-	}
+    }
 
-	/**
-	 * Stop action.
-	 */
-	public void stop() {
-		this._collector.emitEnd();
-	}
+    /**
+     * Stop action.
+     */
+    public void stop() {
+        this._collector.emitEnd();
+    }
 }

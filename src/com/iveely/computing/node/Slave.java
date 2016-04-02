@@ -8,6 +8,7 @@ import com.iveely.framework.net.SyncServer;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
@@ -59,8 +60,12 @@ public class Slave implements Runnable {
 
         // 2.Startup event listen.
         logger.info("Startup event listen.");
-        //Utils.sleep(20);
-        server.start();
+        try {
+            //Utils.sleep(20);
+            server.start();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Slave.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

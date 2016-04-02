@@ -43,7 +43,7 @@ public class OutputExecutor extends IExecutor implements Runnable {
         this._output = output;
         this._conf = conf;
         this._executeCount = 0;
-        this._deDeclarer = new FieldsDeclarer();
+        //this._deDeclarer = new FieldsDeclarer();
         this._name = name;
         this._slot = Communicator.getInstance().selectSlot();
         this._collector = new StreamChannel(output.getName(), name, this);
@@ -57,7 +57,7 @@ public class OutputExecutor extends IExecutor implements Runnable {
     @Override
     public void run() {
         this._output.start(this._conf);
-        this._output.declareOutputFields(this._deDeclarer);
+        //this._output.declareOutputFields(this._deDeclarer);
         this._output.toOutput(this._collector);
     }
 

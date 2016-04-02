@@ -6,12 +6,15 @@ import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import com.iveely.framework.net.Packet;
 import com.iveely.framework.net.SyncServer;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data communicator.
@@ -147,7 +150,11 @@ public class Communicator {
 
 		@Override
 		public void run() {
-			this.server.start();
+                    try {
+                        this.server.start();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 		}
 
 		@Override

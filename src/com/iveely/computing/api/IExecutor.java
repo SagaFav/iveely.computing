@@ -20,10 +20,10 @@ public class IExecutor {
      */
     protected StreamChannel _collector;
 
-    /**
-     * Declarer of fields.
-     */
-    protected FieldsDeclarer _deDeclarer;
+//    /**
+//     * Declarer of fields.
+//     */
+//    protected FieldsDeclarer _deDeclarer;
 
     /**
      * Name of the topology.
@@ -39,22 +39,22 @@ public class IExecutor {
         return this._name;
     }
 
-    /**
-     * Get fields.
-     *
-     * @return
-     */
-    public String[] getFields() {
-        return this._deDeclarer.getFields();
-    }
+//    /**
+//     * Get fields.
+//     *
+//     * @return
+//     */
+//    public String[] getFields() {
+//        return this._deDeclarer.getFields();
+//    }
 
-    /**
-     * Get groups.
-     *
-     * @return
-     */
-    public Integer[] getGroups() {
-        return this._deDeclarer.getGroups();
-    }
+//    /**
+//     * Get groups.
+//     *
+//     * @return
+//     */
+//    public Integer[] getGroups() {
+//        return this._deDeclarer.getGroups();
+//    }
 
 }
