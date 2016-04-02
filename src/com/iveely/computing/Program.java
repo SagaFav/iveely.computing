@@ -28,7 +28,7 @@ public class Program {
     /**
      * Logger.
      */
-    private static final Logger logger = Logger.getLogger(Program.class);
+	private static final Logger logger = Logger.getLogger(Program.class);
 
     /**
      * @param args the command line arguments
@@ -44,7 +44,7 @@ public class Program {
         // testSubmit();
         //testJarExecutor();
         //  args = "master 127.0.0.1 2181".split(" ");
-        processArgs(args);
+          processArgs(args);
         //  onlinetest();
     }
 
@@ -59,11 +59,11 @@ public class Program {
     }
 
     private static void onlinetest() {
-        // if () {
-        // System.out.println("online");
-        // } else {
-        // System.out.println("offline");
-        // }
+        if (WorkerChecker.isOnline(4000)) {
+            System.out.println("online");
+        } else {
+            System.out.println("offline");
+        }
     }
 
     public static void processArgs(String[] args) {

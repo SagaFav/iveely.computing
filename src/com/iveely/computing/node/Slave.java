@@ -4,7 +4,7 @@ import com.iveely.computing.common.Computer;
 import com.iveely.computing.common.Utils;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.net.AsynServer;
+import com.iveely.framework.net.SyncServer;
 
 import java.io.IOException;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class Slave implements Runnable {
     /**
      * Event server.
      */
-    private final AsynServer server;
+    private final SyncServer server;
 
     /**
      * Heartbeat, send each minitue.
@@ -39,16 +39,16 @@ public class Slave implements Runnable {
      * Event processor.
      */
     private final SlaveProcessor processor;
-
+    
     public Slave(String zkServer, int zkPort) throws IOException, KeeperException, InterruptedException, Exception {
         this.processor = new SlaveProcessor();
-        this.server = new AsynServer(SystemConfig.crSlavePort, processor);
+        this.server = new SyncServer(processor, SystemConfig.crSlavePort);
         initZookeeper(zkServer, zkPort, SystemConfig.crSlavePort);
         getMasterInfor();
         this.heartbeat = new Heartbeat();
         Communicator.getInstance();
     }
-
+    
     @Override
     public void run() {
 
@@ -59,8 +59,8 @@ public class Slave implements Runnable {
 
         // 2.Startup event listen.
         logger.info("Startup event listen.");
-        // Utils.sleep(20);
-        server.open();
+        //Utils.sleep(20);
+        server.start();
     }
 
     /**
@@ -81,10 +81,9 @@ public class Slave implements Runnable {
         SystemConfig.zkPort = port;
 
         // 2. Create root\master
-        String slave = com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort;
-        ZookeeperClient.getInstance().setNodeValue(
-                SystemConfig.slaveRoot + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort,
-                new Date().toString());
+        String slave = com.iveely.framework.net.Internet.getLocalIpAddress()
+                + "," + slavePort;
+        ZookeeperClient.getInstance().setNodeValue(SystemConfig.slaveRoot + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort, new Date().toString());
         logger.info("slave information:" + slave);
     }
 

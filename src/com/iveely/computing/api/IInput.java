@@ -64,8 +64,8 @@ public abstract class IInput implements Cloneable {
      *
      * @param conf
      */
-    public void end(HashMap<String, Object> conf) {
-
+    public void end(HashMap<String, Object> conf){
+        
     }
 
     /**

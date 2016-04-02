@@ -3,7 +3,7 @@ package com.iveely.computing.host;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.ui.HostProvider;
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.net.AsynServer;
+import com.iveely.framework.net.SyncServer;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +22,12 @@ public class Master implements Runnable {
     /**
      * Event server from slave to master.
      */
-    private final AsynServer server;
+	private final SyncServer server;
 
     /**
      * Event processor from slave to master.
      */
-    private final AsynServer.IHandler masterProcessor;
+    private final MasterProcessor masterProcessor;
 
     /**
      * WebSocket provider for UI.
@@ -51,12 +51,11 @@ public class Master implements Runnable {
      */
     private final Logger logger = Logger.getLogger(Master.class.getName());
 
-    public Master(String zookeeperServer, int zookeeperPort, String uiPwd)
-            throws IOException, KeeperException, InterruptedException {
+    public Master(String zookeeperServer, int zookeeperPort, String uiPwd) throws IOException, KeeperException, InterruptedException {
         this.validator = new NodeValidator();
         this.masterProcessor = new MasterProcessor(this.validator);
         this.uiProvider = new HostProvider(masterProcessor, uiPwd);
-        this.server = new AsynServer(SystemConfig.masterPort, masterProcessor);
+        this.server = new SyncServer(masterProcessor, SystemConfig.masterPort);
         SystemConfig.zkServer = zookeeperServer;
         SystemConfig.zkPort = zookeeperPort;
         SystemConfig.masterServer = com.iveely.framework.net.Internet.getLocalIpAddress();
@@ -72,7 +71,7 @@ public class Master implements Runnable {
     @Override
     public void run() {
         try {
-            server.open();
+            server.start();
         } catch (Exception ex) {
             logger.error(ex);
         }
@@ -96,7 +95,8 @@ public class Master implements Runnable {
         SystemConfig.zkPort = port;
 
         // 2. Create root\master
-        String master = com.iveely.framework.net.Internet.getLocalIpAddress() + "," + masterPort;
+        String master = com.iveely.framework.net.Internet.getLocalIpAddress()
+                + "," + masterPort;
         ZookeeperClient.getInstance().deleteNode("/iveely");
         ZookeeperClient.getInstance().setNodeValue(SystemConfig.masterRoot, master);
         ZookeeperClient.getInstance().setNodeValue(SystemConfig.masterRoot + "/setup", new Date().toString());

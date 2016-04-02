@@ -21,61 +21,26 @@ import org.apache.log4j.Logger;
  */
 public class Monitor implements Runnable {
 
-    private class WorkerStatus implements WorkerChecker.Feedback {
-
-        private Integer key;
-
-        /**
-        * 
-        */
-        public WorkerStatus(Integer key) {
-            this.key = key;
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see com.iveely.computing.supervisor.WorkerChecker.Feedback#success()
-         */
-        @Override
-        public void success() {
-            logger.info("Port:" + key + " is online...");
-
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see com.iveely.computing.supervisor.WorkerChecker.Feedback#failur()
-         */
-        @Override
-        public void failur() {
-            logger.info("Port:" + key + " is offline...");
-
-        }
-
-    }
-
     /**
      * Logger
      */
     private final Logger logger = Logger.getLogger(Monitor.class.getName());
-
+    
     private HashMap<Integer, Process> list;
-
+    
     private int basePort;
-
+    
     private String masterIP;
-
+    
     private int masterPort;
-
+    
     public Monitor(String mip, int port) {
         list = new HashMap<>();
         basePort = 4000;
         this.masterIP = mip;
         this.masterPort = port;
     }
-
+    
     @Override
     public void run() {
         // 1. Check size to make sure how many workers.
@@ -84,7 +49,7 @@ public class Monitor implements Runnable {
         if (count < 1) {
             count = 1;
         }
-        String jarPath = "Iveely.Computing.jar"; // Computer.getCurrentJar();
+        String jarPath = "Iveely.Computing.jar"; //Computer.getCurrentJar();
         logger.info("Assigned amount of slave:" + count);
         logger.info("Jar path:" + jarPath);
         for (int i = 0; i < count; i++) {
@@ -109,9 +74,11 @@ public class Monitor implements Runnable {
             Map.Entry entry = (Map.Entry) iter.next();
             int key = (int) entry.getKey();
             logger.info("Port:" + key + " is in checking...");
-
-            new WorkerChecker(new WorkerStatus(key)).isOnline(key);
-
+            if (WorkerChecker.isOnline(key)) {
+                logger.info("Port:" + key + " is online...");
+            } else {
+                logger.info("Port:" + key + " is offline...");
+            }
         }
 
         // 3. Monitor all slaves.
@@ -125,8 +92,7 @@ public class Monitor implements Runnable {
                 if (!val.isAlive()) {
                     logger.error("Port:" + key + ", has died.");
                     int slotPort = key + 100 * (i + 1);
-                    val = ProcessBuilder.start(jarPath,
-                            " slave " + this.masterIP + " " + this.masterPort + " " + key + " " + slotPort);
+                    val = ProcessBuilder.start(jarPath, " slave " + this.masterIP + " " + this.masterPort + " " + key + " " + slotPort);
                     if (val != null) {
                         entry.setValue(val);
                         logger.error("Port:" + key + ", has restarted.");
@@ -137,6 +103,6 @@ public class Monitor implements Runnable {
             }
             Utils.sleep(5);
         }
-
+        
     }
 }

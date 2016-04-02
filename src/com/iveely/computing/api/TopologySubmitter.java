@@ -5,8 +5,8 @@ import com.iveely.computing.host.Luggage;
 import com.iveely.computing.host.NodeTopology;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.net.AsynClient;
 import com.iveely.framework.net.Packet;
+import com.iveely.framework.net.SyncClient;
 import com.iveely.framework.text.Convertor;
 
 import java.io.BufferedInputStream;
@@ -56,7 +56,7 @@ public class TopologySubmitter {
      * @param args
      */
     public static void submit(TopologyBuilder builder, String[] args) {
-        // 1. If local mode.
+        // 1.  If local mode.
         if (builder.isLocalMode) {
             LocalCluster local = new LocalCluster();
             local.submit(builder);
@@ -151,22 +151,20 @@ public class TopologySubmitter {
                         packet.setExecutType(Message.ExecuteType.UPLOAD.ordinal());
                         packet.setMimeType(Message.MIMEType.APP.ordinal());
                         byte[] appName = Message.getBytes(header);
-                        byte[] appNameSize = Convertor.int2byte(appName.length, 4);
+						byte[] appNameSize = Convertor.int2byte(appName.length, 4);
                         byte[] data = new byte[4 + appName.length + content.length];
                         System.arraycopy(appNameSize, 0, data, 0, 4);
                         System.arraycopy(appName, 0, data, 4, appName.length);
                         System.arraycopy(content, 0, data, 4 + appName.length, content.length);
                         packet.setData(data);
-                        AsynClient client = new AsynClient(infor[0], Integer.parseInt(infor[1]), null);
+						SyncClient client = new SyncClient(infor[0], Integer.parseInt(infor[1]));
                         client.send(packet);
                     } catch (Exception e) {
                         logger.error(e);
                     }
                 }
-                ZookeeperClient.getInstance().setNodeValue("/app/" + builder.getName() + "/finished",
-                        builder.getAllputs().size() + "");
-                ZookeeperClient.getInstance().setNodeValue("/app/" + builder.getName() + "/slavecount",
-                        builder.getSlaveCount() + "");
+                ZookeeperClient.getInstance().setNodeValue("/app/" + builder.getName() + "/finished", builder.getAllputs().size() + "");
+                ZookeeperClient.getInstance().setNodeValue("/app/" + builder.getName() + "/slavecount", builder.getSlaveCount() + "");
                 topologies.put(builder.getName(), builder);
 
             } else {
