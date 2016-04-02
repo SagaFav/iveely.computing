@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Slave information summary.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-8 12:19:53
  */
 public class SlaveSummary {

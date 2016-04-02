@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-6 23:03:09
  */
 public class StreamPacket implements Serializable {

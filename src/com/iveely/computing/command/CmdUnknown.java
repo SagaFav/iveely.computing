@@ -3,7 +3,7 @@ package com.iveely.computing.command;
 /**
  * Unknown command.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 14:15:38
  */
 public class CmdUnknown implements IMandate {

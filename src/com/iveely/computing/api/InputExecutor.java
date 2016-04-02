@@ -8,8 +8,7 @@ import com.iveely.computing.zookeeper.ZookeeperClient;
 /**
  * Input Executor.
  *
- * @author liufanping@iveely.com
- * @date 2015-3-4 21:08:24
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class InputExecutor extends IExecutor implements Runnable {
 
@@ -39,7 +38,6 @@ public class InputExecutor extends IExecutor implements Runnable {
     public void run() {
         try {
             this._input.start(this._conf);
-            //this._input.declareOutputFields(this._deDeclarer);
             this._input.toOutput(this._collector);
             while (!this._collector.hasEnd()) {
                 this._input.nextTuple(this._collector);
@@ -62,7 +60,6 @@ public class InputExecutor extends IExecutor implements Runnable {
             ZookeeperClient.getInstance().setNodeValue("/app/" + this._name + "/finished/" + this._input.getName(),
                     "Exception stopped.");
         }
-
     }
 
     /**

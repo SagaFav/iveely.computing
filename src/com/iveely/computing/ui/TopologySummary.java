@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Topology summary.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-8 12:16:50
  */
 public class TopologySummary {

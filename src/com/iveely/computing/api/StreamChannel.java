@@ -22,8 +22,7 @@ import java.util.logging.Logger;
 /**
  * Stream Channel.
  *
- * @author liufanping@iveely.com
- * @date 2015-3-4 19:49:34
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class StreamChannel extends IStreamCallback {
 
@@ -35,7 +34,7 @@ public class StreamChannel extends IStreamCallback {
     /**
      * Flag of data spliter.
      */
-    private final String dataSpliter = "#icomputing#";
+    private final String dataSpliter = "\t";
 
     /**
      * Output executor.

@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-7 23:04:49
  */
 public class HostProvider implements Runnable {

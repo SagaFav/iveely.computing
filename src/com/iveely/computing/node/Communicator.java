@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Data communicator.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-6 21:41:22
  */
 public class Communicator {

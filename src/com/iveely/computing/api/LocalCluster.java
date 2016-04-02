@@ -16,8 +16,7 @@ import org.apache.log4j.Logger;
 /**
  * Local cluster running environment.
  *
- * @author liufanping@iveely.com
- * @date 2015-3-4 21:35:22
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class LocalCluster {
 
@@ -92,7 +91,7 @@ public class LocalCluster {
 
         // 5.Close all threads.
         int threadCount = ((ThreadPoolExecutor) this.threadPool).getActiveCount();
-        while ((threadCount = ((ThreadPoolExecutor) this.threadPool).getActiveCount()) != 2) {
+        while ((threadCount = ((ThreadPoolExecutor) this.threadPool).getActiveCount()) > 3) {
             ThreadUtil.sleep(1);
         }
         this.threadPool.shutdownNow();
@@ -124,5 +123,4 @@ public class LocalCluster {
         }
         return false;
     }
-
 }

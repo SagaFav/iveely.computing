@@ -2,7 +2,7 @@ package com.iveely.computing.common;
 
 /**
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-6 23:13:19
  */
 public class IStreamCallback implements Runnable {

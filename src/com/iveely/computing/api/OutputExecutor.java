@@ -9,8 +9,7 @@ import org.apache.log4j.Logger;
 /**
  * Output Executor.
  *
- * @author liufanping@iveely.com
- * @date 2015-3-4 22:59:40
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class OutputExecutor extends IExecutor implements Runnable {
 

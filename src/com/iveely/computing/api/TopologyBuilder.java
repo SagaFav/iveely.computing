@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Topology Builder.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-4 20:03:59
  */
 public class TopologyBuilder {

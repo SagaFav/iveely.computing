@@ -5,7 +5,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeerMain;
 /**
  * Server of zookeeper.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-5 16:30:08
  */
 public class ZookeeperServer implements Runnable {

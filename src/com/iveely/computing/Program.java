@@ -12,23 +12,21 @@ import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.user.Console;
 import com.iveely.computing.supervisor.Monitor;
 import com.iveely.computing.supervisor.WorkerChecker;
-import com.iveely.computing.zookeeper.ZookeeperClient;
 import java.io.IOException;
-import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 
 /**
  * Iveely computing entrance.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class Program {
 
     /**
      * Logger.
      */
-	private static final Logger logger = Logger.getLogger(Program.class);
+    private static final Logger logger = Logger.getLogger(Program.class);
 
     /**
      * @param args the command line arguments
@@ -44,7 +42,7 @@ public class Program {
         // testSubmit();
         //testJarExecutor();
         //  args = "master 127.0.0.1 2181".split(" ");
-          processArgs(args);
+        processArgs(args);
         //  onlinetest();
     }
 

@@ -3,7 +3,7 @@ package com.iveely.computing.ui;
 /**
  * Request.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-8 11:06:54
  */
 public class Request {

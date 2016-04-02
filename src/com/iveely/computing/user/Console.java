@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 /**
  * Console to accept user's commands.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-19 11:24:33
  */
 public class Console implements Runnable {

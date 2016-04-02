@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 /**
  * Topology Submitter.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-4 20:17:50
  */
 public class TopologySubmitter {

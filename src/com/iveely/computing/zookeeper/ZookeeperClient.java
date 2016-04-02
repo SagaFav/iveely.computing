@@ -21,7 +21,7 @@ import org.apache.zookeeper.ZooKeeper.States;
 
 /**
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-5 23:29:53
  */
 public class ZookeeperClient {

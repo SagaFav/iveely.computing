@@ -7,7 +7,7 @@ import com.iveely.database.storage.Warehouse;
 /**
  * Configurator.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 14:21:57
  */
 public class Configurator {

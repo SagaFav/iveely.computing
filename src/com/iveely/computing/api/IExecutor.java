@@ -5,8 +5,7 @@ import java.util.HashMap;
 /**
  * Executor.
  *
- * @author liufanping@iveely.com
- * @date 2015-3-6 19:43:03
+ * @author sea11510@mail.ustc.edu.cn
  */
 public class IExecutor {
 
@@ -19,11 +18,6 @@ public class IExecutor {
      * Output of the collector.
      */
     protected StreamChannel _collector;
-
-//    /**
-//     * Declarer of fields.
-//     */
-//    protected FieldsDeclarer _deDeclarer;
 
     /**
      * Name of the topology.
@@ -38,23 +32,4 @@ public class IExecutor {
     public String getName() {
         return this._name;
     }
-
-//    /**
-//     * Get fields.
-//     *
-//     * @return
-//     */
-//    public String[] getFields() {
-//        return this._deDeclarer.getFields();
-//    }
-
-//    /**
-//     * Get groups.
-//     *
-//     * @return
-//     */
-//    public Integer[] getGroups() {
-//        return this._deDeclarer.getGroups();
-//    }
-
 }

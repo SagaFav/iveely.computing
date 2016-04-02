@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 /**
  * The transfer message in iveely computing.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 20:33:16
  */
 public class Message {

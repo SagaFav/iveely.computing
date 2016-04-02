@@ -8,15 +8,15 @@ import org.apache.log4j.Logger;
 /**
  * Data Input.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-4 19:43:01
  */
-public abstract class IInput implements Cloneable {
+public abstract class IInput {
 
     /**
      * Name of the data-input.
      */
-    private String name = this.getClass().getSimpleName() + "(" + UUID.randomUUID().toString() + ")";
+    private final String name = this.getClass().getSimpleName() + "(" + UUID.randomUUID().toString() + ")";
 
     /**
      * Logger.
@@ -27,26 +27,21 @@ public abstract class IInput implements Cloneable {
      * Initialize.
      *
      * @param conf
-     * @param collector
      */
     public void start(HashMap<String, Object> conf) {
     }
 
-//    /**
-//     * Declare field to output.
-//     *
-//     * @param declarer
-//     */
-//    public abstract void declareOutputFields(FieldsDeclarer declarer);
-
     /**
      * Next data.
+     *
+     * @param channel
      */
     public abstract void nextTuple(StreamChannel channel);
 
     /**
      * Data to which output.
      *
+     * @param channel
      */
     public abstract void toOutput(StreamChannel channel);
 
@@ -64,8 +59,8 @@ public abstract class IInput implements Cloneable {
      *
      * @param conf
      */
-    public void end(HashMap<String, Object> conf){
-        
+    public void end(HashMap<String, Object> conf) {
+
     }
 
     /**
@@ -87,21 +82,5 @@ public abstract class IInput implements Cloneable {
     public String getPublicCache(String key) {
         String value = ZookeeperClient.getInstance().getNodeValue("/cache/" + key);
         return value;
-    }
-
-    /**
-     * Clone self.
-     *
-     * @return
-     */
-    public IInput cloneSelf() {
-        IInput o = null;
-        try {
-            o = (IInput) super.clone();
-            o.name = this.getClass().getName() + "(" + UUID.randomUUID().toString() + ")";
-        } catch (CloneNotSupportedException e) {
-            logger.error(e);
-        }
-        return o;
     }
 }

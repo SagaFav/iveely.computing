@@ -16,7 +16,7 @@ import org.apache.zookeeper.KeeperException;
 /**
  * Slave machine.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 14:05:29
  */
 public class Slave implements Runnable {

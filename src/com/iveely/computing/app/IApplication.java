@@ -3,7 +3,7 @@ package com.iveely.computing.app;
 /**
  * The interface for app which develop on iveely computing.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-19 9:24:55
  */
 public interface IApplication {

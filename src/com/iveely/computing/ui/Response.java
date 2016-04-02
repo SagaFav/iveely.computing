@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 /**
  * Response.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-7 23:04:07
  */
 public class Response implements IHandler {

@@ -6,7 +6,7 @@ import com.iveely.framework.text.JsonUtil;
 /**
  * System summary.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-8 15:15:15
  */
 public final class SystemSummary {

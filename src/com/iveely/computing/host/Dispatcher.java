@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 /**
  * Dispatcher for master to slave.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-19 14:13:44
  */
 public class Dispatcher {

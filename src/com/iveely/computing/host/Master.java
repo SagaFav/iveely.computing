@@ -14,7 +14,7 @@ import org.apache.zookeeper.KeeperException;
 /**
  * Master.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 14:06:47
  */
 public class Master implements Runnable {

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 /**
  * Heartbeat
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2014-10-18 15:20:18
  */
 public class Heartbeat implements Runnable {

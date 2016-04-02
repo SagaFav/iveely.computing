@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * System config information.
  *
- * @author liufanping@iveely.com
+ * @author sea11510@mail.ustc.edu.cn
  * @date 2015-3-4 21:09:54
  */
 public class SystemConfig {
