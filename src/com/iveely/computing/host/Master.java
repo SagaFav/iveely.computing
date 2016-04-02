@@ -22,7 +22,7 @@ public class Master implements Runnable {
     /**
      * Event server from slave to master.
      */
-	private final SyncServer server;
+    private final SyncServer server;
 
     /**
      * Event processor from slave to master.
@@ -47,6 +47,11 @@ public class Master implements Runnable {
     private Thread validatorThread;
 
     /**
+     * Has started of master.
+     */
+    private boolean isStarted;
+
+    /**
      * Logger.
      */
     private final Logger logger = Logger.getLogger(Master.class.getName());
@@ -56,6 +61,7 @@ public class Master implements Runnable {
         this.masterProcessor = new MasterProcessor(this.validator);
         this.uiProvider = new HostProvider(masterProcessor, uiPwd);
         this.server = new SyncServer(masterProcessor, SystemConfig.masterPort);
+        this.isStarted = false;
         SystemConfig.zkServer = zookeeperServer;
         SystemConfig.zkPort = zookeeperPort;
         SystemConfig.masterServer = com.iveely.framework.net.Internet.getLocalIpAddress();
@@ -71,8 +77,12 @@ public class Master implements Runnable {
     @Override
     public void run() {
         try {
-            server.start();
+            if (!isStarted) {
+                server.start();
+                isStarted = true;
+            }
         } catch (Exception ex) {
+            logger.error(String.format("Error to start master,port{0}", SystemConfig.masterPort));
             logger.error(ex);
         }
     }
