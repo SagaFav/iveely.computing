@@ -11,7 +11,6 @@ import java.util.List;
  * Slave information summary.
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-8 12:19:53
  */
 public class SlaveSummary {
 
@@ -97,7 +96,7 @@ public class SlaveSummary {
         }
 
         public String toJson() {
-			return JsonUtil.beanToJson(this);
+            return JsonUtil.beanToJson(this);
         }
     }
 

@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 /**
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-8 10:45:16
  */
 public class ClusterSummary {
 

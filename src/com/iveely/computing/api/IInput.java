@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
  * Data Input.
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-4 19:43:01
  */
 public abstract class IInput {
 

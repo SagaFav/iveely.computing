@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
@@ -22,7 +21,6 @@ import org.apache.zookeeper.ZooKeeper.States;
 /**
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-5 23:29:53
  */
 public class ZookeeperClient {
 
@@ -30,7 +28,7 @@ public class ZookeeperClient {
      * Logger.
      */
     private static final Logger logger = Logger.getLogger(ZookeeperClient.class.getName());
-    
+
     private ZookeeperClient() throws IOException {
         CountDownLatch connectedLatch = new CountDownLatch(1);
         Watcher watcher = new ConnectedWatcher(connectedLatch);
@@ -38,11 +36,11 @@ public class ZookeeperClient {
                 10000, watcher);
         waitUntilConnected(zk, connectedLatch);
     }
-    
+
     private static ZookeeperClient client;
-    
+
     private ZooKeeper zk;
-    
+
     public static void waitUntilConnected(ZooKeeper zooKeeper, CountDownLatch connectedLatch) {
         if (States.CONNECTING == zooKeeper.getState()) {
             try {
@@ -52,15 +50,15 @@ public class ZookeeperClient {
             }
         }
     }
-    
+
     static class ConnectedWatcher implements Watcher {
-        
+
         private final CountDownLatch connectedLatch;
-        
+
         ConnectedWatcher(CountDownLatch connectedLatch) {
             this.connectedLatch = connectedLatch;
         }
-        
+
         @Override
         public void process(WatchedEvent event) {
             if (event.getState() == KeeperState.SyncConnected) {
@@ -76,7 +74,7 @@ public class ZookeeperClient {
             }
         }
     }
-    
+
     public static ZookeeperClient getInstance() {
         if (client == null) {
             try {
@@ -179,11 +177,11 @@ public class ZookeeperClient {
                 if (zk.exists(tempPath, null) == null) {
                     zk.create(tempPath, new Date().toString().getBytes(Charset.defaultCharset()), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
                 }
-                
+
             }
         } catch (KeeperException | InterruptedException e) {
             logger.error(e);
         }
     }
-    
+
 }

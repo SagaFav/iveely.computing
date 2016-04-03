@@ -1,7 +1,5 @@
 package com.iveely.computing.node;
 
-import com.iveely.computing.common.Computer;
-import com.iveely.computing.common.Utils;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import com.iveely.framework.net.SyncServer;
@@ -9,7 +7,6 @@ import com.iveely.framework.net.SyncServer;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
-import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 
@@ -17,7 +14,6 @@ import org.apache.zookeeper.KeeperException;
  * Slave machine.
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2014-10-18 14:05:29
  */
 public class Slave implements Runnable {
 
@@ -40,7 +36,7 @@ public class Slave implements Runnable {
      * Event processor.
      */
     private final SlaveProcessor processor;
-    
+
     public Slave(String zkServer, int zkPort) throws IOException, KeeperException, InterruptedException, Exception {
         this.processor = new SlaveProcessor();
         this.server = new SyncServer(processor, SystemConfig.crSlavePort);
@@ -49,7 +45,7 @@ public class Slave implements Runnable {
         this.heartbeat = new Heartbeat();
         Communicator.getInstance();
     }
-    
+
     @Override
     public void run() {
 

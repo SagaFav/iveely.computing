@@ -5,7 +5,6 @@ import java.util.List;
 /**
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-4 19:53:56
  */
 public class Tuple {
 

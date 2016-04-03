@@ -7,7 +7,6 @@ import java.util.TreeMap;
 /**
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2015-3-7 15:19:24
  */
 public class Luggage {
 

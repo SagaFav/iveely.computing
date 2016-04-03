@@ -4,7 +4,6 @@ package com.iveely.computing.config;
  * Master deploy information.
  *
  * @author sea11510@mail.ustc.edu.cn
- * @date 2014-10-18 14:25:49
  */
 class MasterDeploy {
 
