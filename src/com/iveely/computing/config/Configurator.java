@@ -16,18 +16,8 @@ public class Configurator {
 
     private ZookeeperConfig zookeeper;
 
-    private Configurator() {
-        Configurator instance = JSONUtil.fromFile(new File("conf/system.json"));
-        if (instance != null) {
-            this.master = instance.getMaster();
-            this.slave = instance.getSlave();
-            this.zookeeper = instance.getZookeeper();
-        } else {
-            this.master = new MasterConfig("127.0.0.1", 8000, 9000, "", "/iveely.computing/master");
-            this.slave = new SlaveConfig(4000, 6000, 6, "/iveely.computing/slave");
-            this.zookeeper = new ZookeeperConfig("127.0.0.1", 2181);
-            JSONUtil.toFile(this, new File("conf/system.json"));
-        }
+    public Configurator() {
+     
     }
 
     /**
@@ -70,9 +60,5 @@ public class Configurator {
      */
     public void setZookeeper(ZookeeperConfig zookeeper) {
         this.zookeeper = zookeeper;
-    }
-
-    public static Configurator get() {
-        return new Configurator();
     }
 }

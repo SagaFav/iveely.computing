@@ -1,6 +1,7 @@
 package com.iveely.computing.zookeeper;
 
 import com.iveely.computing.common.Message;
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class ZookeeperClient {
     private ZookeeperClient() throws IOException {
         CountDownLatch connectedLatch = new CountDownLatch(1);
         Watcher watcher = new ConnectedWatcher(connectedLatch);
-        zk = new ZooKeeper(Configurator.get().getZookeeper().getAddress() + ":" + Configurator.get().getZookeeper().getPort(),
+        zk = new ZooKeeper(ConfigWrapper.get().getZookeeper().getAddress() + ":" + ConfigWrapper.get().getZookeeper().getPort(),
                 10000, watcher);
         waitUntilConnected(zk, connectedLatch);
     }

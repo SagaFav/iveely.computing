@@ -1,5 +1,6 @@
 package com.iveely.computing.ui;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.host.Luggage;
 import com.iveely.computing.status.SystemConfig;
@@ -90,10 +91,10 @@ public class SlaveSummary {
             this.runningApp = Luggage.slaves.get(this.host);
 
             // 2. slots count.
-            this.slotsCount = Configurator.get().getSlave().getSlotCount();
+            this.slotsCount = ConfigWrapper.get().getSlave().getSlotCount();
 
             // 3. setup time.
-            this.setupTime = ZookeeperClient.getInstance().getNodeValue(Configurator.get().getSlave().getRoot() + "/" + this.host);
+            this.setupTime = ZookeeperClient.getInstance().getNodeValue(ConfigWrapper.get().getSlave().getRoot() + "/" + this.host);
         }
 
         public String toJson() {

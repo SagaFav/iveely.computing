@@ -1,5 +1,6 @@
 package com.iveely.computing.host;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.ui.HostProvider;
@@ -60,7 +61,7 @@ public class Master implements Runnable {
         this.validator = new NodeValidator();
         this.masterProcessor = new MasterProcessor(this.validator);
         this.uiProvider = new HostProvider(masterProcessor, uiPwd);
-        int masterPort = Configurator.get().getMaster().getPort();
+        int masterPort = ConfigWrapper.get().getMaster().getPort();
         this.server = new SyncServer(masterProcessor, masterPort);
         this.isStarted = false;
         initZookeeper(zookeeperServer, zookeeperPort, masterPort);
@@ -80,7 +81,7 @@ public class Master implements Runnable {
                 isStarted = true;
             }
         } catch (Exception ex) {
-            logger.error(String.format("Error to start master,port{0}", Configurator.get().getMaster().getPort()));
+            logger.error(String.format("Error to start master,port{0}", ConfigWrapper.get().getMaster().getPort()));
             logger.error(ex);
         }
     }
@@ -102,7 +103,7 @@ public class Master implements Runnable {
         // 2. Create root\master
         String master = com.iveely.framework.net.Internet.getLocalIpAddress()
                 + "," + masterPort;
-        String masterRoot = Configurator.get().getMaster().getRoot();
+        String masterRoot = ConfigWrapper.get().getMaster().getRoot();
         ZookeeperClient.getInstance().deleteNode("/");
         ZookeeperClient.getInstance().setNodeValue(masterRoot, master);
         ZookeeperClient.getInstance().setNodeValue(masterRoot + "/setup", new Date().toString());

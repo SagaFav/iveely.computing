@@ -2,15 +2,12 @@ package com.iveely.computing.node;
 
 import com.iveely.computing.common.Message;
 import com.iveely.computing.common.Utils;
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
-import com.iveely.computing.status.SystemConfig;
 import com.iveely.framework.net.Internet;
-import com.iveely.framework.net.InternetAddress;
 import com.iveely.framework.net.Packet;
 import com.iveely.framework.net.SyncClient;
 import com.iveely.framework.text.JSONUtil;
-import java.io.IOException;
-import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 
@@ -31,7 +28,7 @@ public class Heartbeat implements Runnable {
 
         public HearbeatInfo() {
             this.ipaddress = Internet.getLocalIpAddress();
-            this.port = Configurator.get().getSlave().getPort();
+            this.port = ConfigWrapper.get().getSlave().getPort();
             this.usedSlot = Communicator.getInstance().getUsedSlotCount();
         }
 
@@ -94,7 +91,7 @@ public class Heartbeat implements Runnable {
     private final Logger logger = Logger.getLogger(Heartbeat.class.getName());
 
     public Heartbeat() {
-        client = new SyncClient(Configurator.get().getMaster().getAddress(), Configurator.get().getMaster().getPort());
+        client = new SyncClient(ConfigWrapper.get().getMaster().getAddress(), ConfigWrapper.get().getMaster().getPort());
     }
 
     @Override

@@ -2,11 +2,11 @@ package com.iveely.computing.node;
 
 import com.iveely.computing.common.IStreamCallback;
 import com.iveely.computing.common.StreamPacket;
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import com.iveely.framework.net.Internet;
-import com.iveely.framework.net.InternetAddress;
 import com.iveely.framework.net.Packet;
 import com.iveely.framework.net.SyncServer;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class Communicator {
         private int usingCount;
 
         public Slot(int port) {
-            this.port = Configurator.get().getSlave().getSlot() + port;
+            this.port = ConfigWrapper.get().getSlave().getSlot() + port;
             this.server = new SyncServer(this, this.port);
             this.name = UUID.randomUUID().toString();
             this.callbacks = new HashMap<>();
@@ -191,9 +191,9 @@ public class Communicator {
 
     private Communicator() {
         this.slots = new ArrayList<>();
-        int slotCount = Configurator.get().getSlave().getSlotCount();
-        int port = Configurator.get().getSlave().getPort();
-        String slaveRoot = Configurator.get().getSlave().getRoot();
+        int slotCount = ConfigWrapper.get().getSlave().getSlotCount();
+        int port = ConfigWrapper.get().getSlave().getPort();
+        String slaveRoot = ConfigWrapper.get().getSlave().getRoot();
         this.threadPool = Executors.newFixedThreadPool(slotCount);
         for (int i = 0; i < slotCount; i++) {
             Slot slot = new Slot(i);

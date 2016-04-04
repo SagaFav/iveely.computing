@@ -15,6 +15,10 @@ public class ZookeeperConfig {
 
     private Integer port;
 
+    public ZookeeperConfig() {
+
+    }
+
     public ZookeeperConfig(String address, Integer port) {
         this.address = address;
         this.port = port;

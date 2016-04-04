@@ -1,5 +1,6 @@
 package com.iveely.computing.ui;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.framework.text.JSONUtil;
@@ -112,7 +113,7 @@ public final class SystemSummary {
      * Set zookeeper server.
      */
     public void setZkServer() {
-        this.zkServer = Configurator.get().getZookeeper().getAddress();
+        this.zkServer = ConfigWrapper.get().getZookeeper().getAddress();
     }
 
     /**
@@ -126,7 +127,7 @@ public final class SystemSummary {
      * Set zookeeper port.
      */
     public void setZkPort() {
-        this.zkPort = Configurator.get().getZookeeper().getPort();
+        this.zkPort = ConfigWrapper.get().getZookeeper().getPort();
     }
 
     /**
@@ -140,7 +141,7 @@ public final class SystemSummary {
      * Set master server.
      */
     public void setMasterServer() {
-        this.masterServer = Configurator.get().getMaster().getAddress();
+        this.masterServer = ConfigWrapper.get().getMaster().getAddress();
     }
 
     /**
@@ -154,7 +155,7 @@ public final class SystemSummary {
      * Set master port.
      */
     public void setMasterPort() {
-        this.masterPort = Configurator.get().getMaster().getPort();
+        this.masterPort = ConfigWrapper.get().getMaster().getPort();
     }
 
     /**
@@ -168,7 +169,7 @@ public final class SystemSummary {
      * Set slot count.
      */
     public void setSlotCount() {
-        this.slotCount = Configurator.get().getSlave().getSlotCount();
+        this.slotCount = ConfigWrapper.get().getSlave().getSlotCount();
     }
 
     /**
@@ -182,7 +183,7 @@ public final class SystemSummary {
      * Set slave root path.
      */
     public void setSlaveRoot() {
-        this.slaveRoot = Configurator.get().getSlave().getRoot();
+        this.slaveRoot = ConfigWrapper.get().getSlave().getRoot();
     }
 
     /**
@@ -196,7 +197,7 @@ public final class SystemSummary {
      * Set master root.
      */
     public void setMasterRoot() {
-        this.masterRoot = Configurator.get().getMaster().getRoot();
+        this.masterRoot = ConfigWrapper.get().getMaster().getRoot();
     }
 
     /**
@@ -224,7 +225,7 @@ public final class SystemSummary {
      * Set current slave port.
      */
     public void setCrSlavePort() {
-        this.crSlavePort = Configurator.get().getSlave().getPort();
+        this.crSlavePort = ConfigWrapper.get().getSlave().getPort();
     }
 
     /**
@@ -238,7 +239,7 @@ public final class SystemSummary {
      * Set slot base port.
      */
     public void setSlotBasePort() {
-        this.slotBasePort = Configurator.get().getSlave().getSlot();
+        this.slotBasePort = ConfigWrapper.get().getSlave().getSlot();
     }
 
     /**
@@ -266,7 +267,7 @@ public final class SystemSummary {
      * Set UI port.
      */
     public void setUiPort() {
-        this.uiPort = Configurator.get().getMaster().getUi_port();
+        this.uiPort = ConfigWrapper.get().getMaster().getUi_port();
     }
 
     /**

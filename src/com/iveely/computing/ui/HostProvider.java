@@ -1,5 +1,6 @@
 package com.iveely.computing.ui;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.framework.net.SyncServer;
@@ -31,7 +32,7 @@ public class HostProvider implements Runnable {
     public HostProvider(SyncServer.ICallback masterEvent, String uiPwd) {
         try {
             this.response = new Response(masterEvent, uiPwd);
-            this.socket = new SocketServer(this.response,Configurator.get().getMaster().getUi_port());
+            this.socket = new SocketServer(this.response,ConfigWrapper.get().getMaster().getUi_port());
         } catch (Exception e) {
             logger.error(e);
         }

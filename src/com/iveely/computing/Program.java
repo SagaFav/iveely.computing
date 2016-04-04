@@ -5,6 +5,7 @@
  */
 package com.iveely.computing;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.host.Master;
 import com.iveely.computing.node.Slave;
@@ -33,7 +34,7 @@ public class Program {
      */
     public static void main(String[] args) {
         if (args != null && args.length == 1) {
-            Configurator configurator = Configurator.get();
+            Configurator configurator = ConfigWrapper.get();
             String type = args[0].trim();
             switch (args[0].toLowerCase()) {
                 case "master":
@@ -43,7 +44,7 @@ public class Program {
                     } catch (IOException | KeeperException | InterruptedException e) {
                         logger.error(e);
                     }
-                    logger.info(String.format("Master started on port: %d", Configurator.get().getMaster().getPort()));
+                    logger.info(String.format("Master started on port: %d", ConfigWrapper.get().getMaster().getPort()));
                     break;
                 case "slave":
                     try {

@@ -1,5 +1,6 @@
 package com.iveely.computing.node;
 
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
@@ -40,8 +41,8 @@ public class Slave implements Runnable {
 
     public Slave(String zkServer, int zkPort) throws IOException, KeeperException, InterruptedException, Exception {
         this.processor = new SlaveProcessor();
-        this.server = new SyncServer(processor, Configurator.get().getSlave().getPort());
-        initZookeeper(zkServer, zkPort, Configurator.get().getSlave().getPort());
+        this.server = new SyncServer(processor, ConfigWrapper.get().getSlave().getPort());
+        initZookeeper(zkServer, zkPort, ConfigWrapper.get().getSlave().getPort());
         getMasterInfor();
         this.heartbeat = new Heartbeat();
         Communicator.getInstance();
@@ -82,7 +83,7 @@ public class Slave implements Runnable {
         // 2. Create root\master
         String slave = com.iveely.framework.net.Internet.getLocalIpAddress()
                 + "," + slavePort;
-        ZookeeperClient.getInstance().setNodeValue(Configurator.get().getSlave() + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort, new Date().toString());
+        ZookeeperClient.getInstance().setNodeValue(ConfigWrapper.get().getSlave() + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort, new Date().toString());
         logger.info("slave information:" + slave);
     }
 
@@ -90,7 +91,7 @@ public class Slave implements Runnable {
      * Get master information.
      */
     private void getMasterInfor() throws Exception {
-        String connectPath = ZookeeperClient.getInstance().getNodeValue(Configurator.get().getMaster().getRoot());
+        String connectPath = ZookeeperClient.getInstance().getNodeValue(ConfigWrapper.get().getMaster().getRoot());
         if (connectPath == null || connectPath.isEmpty()) {
             throw new Exception("When get master information, connection string can not null or empty.");
         }

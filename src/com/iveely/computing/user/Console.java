@@ -1,6 +1,7 @@
 package com.iveely.computing.user;
 
 import com.iveely.computing.common.Message;
+import com.iveely.computing.config.ConfigWrapper;
 import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
@@ -37,7 +38,7 @@ public class Console implements Runnable {
     private final Logger logger = Logger.getLogger(Console.class.getName());
 
     public Console() {
-        client = new SyncClient(Configurator.get().getMaster().getAddress(), Configurator.get().getMaster().getPort());
+        client = new SyncClient(ConfigWrapper.get().getMaster().getAddress(), ConfigWrapper.get().getMaster().getPort());
     }
 
     @Override

@@ -18,6 +18,10 @@ public class SlaveConfig {
     private Integer slot;
 
     private Integer slotCount;
+    
+    public SlaveConfig(){
+        
+    }
 
     public SlaveConfig(Integer port, Integer slot, Integer slotCount, String root) {
         this.slot = slot;

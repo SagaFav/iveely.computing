@@ -21,6 +21,10 @@ public class MasterConfig {
 
     private String root;
 
+    public MasterConfig() {
+
+    }
+
     public MasterConfig(String address, Integer port, Integer uiport, String password, String root) {
         this.address = address;
         this.port = port;
@@ -63,7 +67,7 @@ public class MasterConfig {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     /**
      * @return the ui_port
      */
