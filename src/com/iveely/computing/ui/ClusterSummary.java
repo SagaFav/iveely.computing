@@ -1,5 +1,6 @@
 package com.iveely.computing.ui;
 
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.host.Luggage;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
@@ -95,20 +96,20 @@ public class ClusterSummary {
 
         // 1. Version
         if (this.version == null || this.version.isEmpty()) {
-            this.version = SystemConfig.version;
+            this.version = ClusterSummary.class.getPackage().getSpecificationVersion();
         }
 
         // 2. Master uptime
         if (this.setupTime == null || this.setupTime.isEmpty()) {
-            String time = ZookeeperClient.getInstance().getNodeValue(SystemConfig.masterRoot + "/setup");
+            String time = ZookeeperClient.getInstance().getNodeValue(Configurator.get().getMaster().getRoot() + "/setup");
             this.setupTime = time;
         }
 
         // 3. Count of slaves.
-        this.slaveCount = ZookeeperClient.getInstance().getChildren(SystemConfig.slaveRoot).size();
+        this.slaveCount = ZookeeperClient.getInstance().getChildren(Configurator.get().getSlave().getRoot()).size();
 
         // 4. Total slots.
-        this.totalSlotCount = this.slaveCount * SystemConfig.slotCount;
+        this.totalSlotCount = this.slaveCount * Configurator.get().getSlave().getSlotCount();
 
         // 5. Used slots.
         this.usedSlotCount = 0;

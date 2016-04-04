@@ -1,7 +1,7 @@
 package com.iveely.computing.ui;
 
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.text.JsonUtil;
+import com.iveely.framework.text.JSONUtil;
 
 import java.util.List;
 
@@ -118,7 +118,7 @@ public class TopologySummary {
         }
 
         public String toJson() {
-            return JsonUtil.beanToJson(this);
+            return JSONUtil.toString(this);
         }
     }
 
@@ -186,6 +186,6 @@ public class TopologySummary {
      * @return
      */
     public String toJson() {
-        return JsonUtil.beanToJson(this);
+        return JSONUtil.toString(this);
     }
 }

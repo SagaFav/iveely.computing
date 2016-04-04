@@ -1,5 +1,6 @@
 package com.iveely.computing.node;
 
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import com.iveely.framework.net.SyncServer;
@@ -39,8 +40,8 @@ public class Slave implements Runnable {
 
     public Slave(String zkServer, int zkPort) throws IOException, KeeperException, InterruptedException, Exception {
         this.processor = new SlaveProcessor();
-        this.server = new SyncServer(processor, SystemConfig.crSlavePort);
-        initZookeeper(zkServer, zkPort, SystemConfig.crSlavePort);
+        this.server = new SyncServer(processor, Configurator.get().getSlave().getPort());
+        initZookeeper(zkServer, zkPort, Configurator.get().getSlave().getPort());
         getMasterInfor();
         this.heartbeat = new Heartbeat();
         Communicator.getInstance();
@@ -78,13 +79,10 @@ public class Slave implements Runnable {
             throws IOException, KeeperException, InterruptedException {
 
         // 1. Create zookeeper.
-        SystemConfig.zkServer = server;
-        SystemConfig.zkPort = port;
-
         // 2. Create root\master
         String slave = com.iveely.framework.net.Internet.getLocalIpAddress()
                 + "," + slavePort;
-        ZookeeperClient.getInstance().setNodeValue(SystemConfig.slaveRoot + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort, new Date().toString());
+        ZookeeperClient.getInstance().setNodeValue(Configurator.get().getSlave() + "/" + com.iveely.framework.net.Internet.getLocalIpAddress() + "," + slavePort, new Date().toString());
         logger.info("slave information:" + slave);
     }
 
@@ -92,11 +90,10 @@ public class Slave implements Runnable {
      * Get master information.
      */
     private void getMasterInfor() throws Exception {
-        String connectPath = ZookeeperClient.getInstance().getNodeValue(SystemConfig.masterRoot);
+        String connectPath = ZookeeperClient.getInstance().getNodeValue(Configurator.get().getMaster().getRoot());
         if (connectPath == null || connectPath.isEmpty()) {
             throw new Exception("When get master information, connection string can not null or empty.");
         }
         String[] infor = connectPath.split(",");
-        SystemConfig.masterServer = infor[0];
     }
 }

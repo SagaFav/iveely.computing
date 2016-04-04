@@ -1,9 +1,10 @@
 package com.iveely.computing.ui;
 
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.host.Luggage;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.text.JsonUtil;
+import com.iveely.framework.text.JSONUtil;
 
 import java.util.List;
 
@@ -89,14 +90,14 @@ public class SlaveSummary {
             this.runningApp = Luggage.slaves.get(this.host);
 
             // 2. slots count.
-            this.slotsCount = SystemConfig.slotCount;
+            this.slotsCount = Configurator.get().getSlave().getSlotCount();
 
             // 3. setup time.
-            this.setupTime = ZookeeperClient.getInstance().getNodeValue(SystemConfig.slaveRoot + "/" + this.host);
+            this.setupTime = ZookeeperClient.getInstance().getNodeValue(Configurator.get().getSlave().getRoot() + "/" + this.host);
         }
 
         public String toJson() {
-            return JsonUtil.beanToJson(this);
+            return JSONUtil.toString(this);
         }
     }
 
@@ -125,6 +126,6 @@ public class SlaveSummary {
      * @return
      */
     public String toJson() {
-        return JsonUtil.beanToJson(this);
+        return JSONUtil.toString(this);
     }
 }

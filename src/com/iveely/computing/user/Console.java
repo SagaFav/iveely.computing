@@ -1,6 +1,7 @@
 package com.iveely.computing.user;
 
 import com.iveely.computing.common.Message;
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import com.iveely.framework.net.Packet;
@@ -35,11 +36,8 @@ public class Console implements Runnable {
      */
     private final Logger logger = Logger.getLogger(Console.class.getName());
 
-    public Console(String zkServer, int zkPort) throws Exception {
-        SystemConfig.zkServer = zkServer;
-        SystemConfig.zkPort = zkPort;
-        getMasterInfor();
-        client = new SyncClient(SystemConfig.masterServer, SystemConfig.masterPort);
+    public Console() {
+        client = new SyncClient(Configurator.get().getMaster().getAddress(), Configurator.get().getMaster().getPort());
     }
 
     @Override
@@ -127,7 +125,7 @@ public class Console implements Runnable {
             System.arraycopy(appName, 0, data, 4, appName.length);
             System.arraycopy(content, 0, data, 4 + appName.length, content.length);
             packet.setData(data);
-			// File appFile = new File(fileName);
+            // File appFile = new File(fileName);
             // appFile.deleteOnExit();
             packet = client.send(packet);
             logger.info("Get response.");
@@ -137,17 +135,5 @@ public class Console implements Runnable {
         } else {
             logger.error("Unknow execute type:" + cmds[0]);
         }
-    }
-
-    /**
-     * Get master information.
-     */
-    private void getMasterInfor() throws Exception {
-        String connectPath = ZookeeperClient.getInstance().getNodeValue(SystemConfig.masterRoot);
-        if (connectPath == null || connectPath.isEmpty()) {
-            throw new Exception("When get master information, connection string can not null or empty.");
-        }
-        String[] infor = connectPath.split(",");
-        SystemConfig.masterServer = infor[0];
     }
 }

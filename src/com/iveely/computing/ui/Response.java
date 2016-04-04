@@ -5,7 +5,7 @@ import com.iveely.computing.common.Message;
 import com.iveely.framework.net.Packet;
 import com.iveely.framework.net.SyncServer;
 import com.iveely.framework.net.websocket.WSHandler;
-import com.iveely.framework.text.JsonUtil;
+import com.iveely.framework.text.JSONUtil;
 import com.iveely.framework.net.websocket.SocketServer.IHandler;
 
 import org.apache.log4j.Logger;
@@ -103,7 +103,7 @@ public class Response implements IHandler {
     private String showClusterSummary() {
         ClusterSummary summary = new ClusterSummary();
         summary.init();
-        String data = JsonUtil.beanToJson(summary);
+        String data = JSONUtil.toString(summary);
         return data;
     }
 

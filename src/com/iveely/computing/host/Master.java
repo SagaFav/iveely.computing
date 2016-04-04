@@ -1,5 +1,6 @@
 package com.iveely.computing.host;
 
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.ui.HostProvider;
 import com.iveely.computing.zookeeper.ZookeeperClient;
@@ -59,12 +60,10 @@ public class Master implements Runnable {
         this.validator = new NodeValidator();
         this.masterProcessor = new MasterProcessor(this.validator);
         this.uiProvider = new HostProvider(masterProcessor, uiPwd);
-        this.server = new SyncServer(masterProcessor, SystemConfig.masterPort);
+        int masterPort = Configurator.get().getMaster().getPort();
+        this.server = new SyncServer(masterProcessor, masterPort);
         this.isStarted = false;
-        SystemConfig.zkServer = zookeeperServer;
-        SystemConfig.zkPort = zookeeperPort;
-        SystemConfig.masterServer = com.iveely.framework.net.Internet.getLocalIpAddress();
-        initZookeeper(zookeeperServer, zookeeperPort, SystemConfig.masterPort);
+        initZookeeper(zookeeperServer, zookeeperPort, masterPort);
         initFolder();
         initUIService();
         initValidatorService();
@@ -81,7 +80,7 @@ public class Master implements Runnable {
                 isStarted = true;
             }
         } catch (Exception ex) {
-            logger.error(String.format("Error to start master,port{0}", SystemConfig.masterPort));
+            logger.error(String.format("Error to start master,port{0}", Configurator.get().getMaster().getPort()));
             logger.error(ex);
         }
     }
@@ -99,16 +98,14 @@ public class Master implements Runnable {
     private void initZookeeper(String server, int port, int masterPort)
             throws IOException, KeeperException, InterruptedException {
 
-        // 1. Create zookeeper.
-        SystemConfig.zkServer = server;
-        SystemConfig.zkPort = port;
 
         // 2. Create root\master
         String master = com.iveely.framework.net.Internet.getLocalIpAddress()
                 + "," + masterPort;
-        ZookeeperClient.getInstance().deleteNode("/iveely");
-        ZookeeperClient.getInstance().setNodeValue(SystemConfig.masterRoot, master);
-        ZookeeperClient.getInstance().setNodeValue(SystemConfig.masterRoot + "/setup", new Date().toString());
+        String masterRoot = Configurator.get().getMaster().getRoot();
+        ZookeeperClient.getInstance().deleteNode("/");
+        ZookeeperClient.getInstance().setNodeValue(masterRoot, master);
+        ZookeeperClient.getInstance().setNodeValue(masterRoot + "/setup", new Date().toString());
         logger.info("master information:" + master);
     }
 

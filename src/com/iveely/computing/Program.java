@@ -32,118 +32,49 @@ public class Program {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        testMaster();
-        // testSlave();
-//        SystemConfig.zkServer = "127.0.0.1";
-//        SystemConfig.zkPort = 2181;
-//        System.out.println(ZookeeperClient.getInstance().getNodeValue("/app/WordCount/finished"));
-        //testWebSocket();
-        // testConsole();
-        // testSubmit();
-        //testJarExecutor();
-        //  args = "master 127.0.0.1 2181".split(" ");
-        processArgs(args);
-        //  onlinetest();
-    }
-
-    private static void testMaster() {
-        String[] argsStrings = new String[]{"master", "127.0.0.1", "2181", "123456"};
-        processArgs(argsStrings);
-    }
-
-    private static void testSlave() {
-        String[] argsStrings = new String[]{"slave", "127.0.0.1", "2181", "4000", "4100"};
-        processArgs(argsStrings);
-    }
-
-    private static void onlinetest() {
-        if (WorkerChecker.isOnline(4000)) {
-            System.out.println("online");
-        } else {
-            System.out.println("offline");
-        }
-    }
-
-    public static void processArgs(String[] args) {
-        if (args.length > 2) {
-            String ip = args[1].trim();
-            Integer port = Integer.parseInt(args[2].trim());
-            if (port > 0 && port < 65535) {
-
-                // Update confige information
-                if (null != args[0].toLowerCase()) {
-                    switch (args[0].toLowerCase()) {
-                        case "master":
-                            // Cmd for master
-                            try {
-                                String password = args[3];
-                                Master master = new Master(ip, port, password);
-                                master.run();
-                            } catch (IOException | KeeperException | InterruptedException e) {
-                                logger.error(e);
-                            }
-
-                            logger.info("Master started on port:" + Configurator.getMasterPort());
-                            break;
-                        case "slave":
-                            try {
-                                // Cmd for slave
-                                //Attribute.getInstance().setFolder(SystemConfig.appFoler);
-                                Integer slavePort = Integer.parseInt(args[3].trim());
-                                SystemConfig.crSlavePort = slavePort;
-                                Integer slotPort = Integer.parseInt(args[4].trim());
-                                SystemConfig.slotBasePort = slotPort;
-                                Slave slave = new Slave(ip, port);
-                                slave.run();
-                                logger.info("Slave started, master is " + SystemConfig.masterServer + ":" + SystemConfig.masterPort);
-                            } catch (Exception e) {
-                                logger.error(e);
-                            }
-                            break;
-                        case "supervisor":
-                            try {
-                                // Cmd for supervisor
-                                Monitor monitor = new Monitor(ip, port);
-                                monitor.run();
-                                logger.info("monitor started, master is " + SystemConfig.masterServer + ":" + SystemConfig.masterPort);
-                            } catch (Exception e) {
-                                logger.error(e);
-                            }
-                            break;
-                        default:
-                            // Cmd for console
-                            try {
-                                Console console = new Console(ip, port);
-                                console.run();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                logger.error(e);
-                            }
-
-                            break;
+        if (args != null && args.length == 1) {
+            Configurator configurator = Configurator.get();
+            String type = args[0].trim();
+            switch (args[0].toLowerCase()) {
+                case "master":
+                    try {
+                        Master master = new Master(configurator.getZookeeper().getAddress(), configurator.getZookeeper().getPort(), configurator.getMaster().getPassword());
+                        master.run();
+                    } catch (IOException | KeeperException | InterruptedException e) {
+                        logger.error(e);
                     }
-                }
+                    logger.info(String.format("Master started on port: %d", Configurator.get().getMaster().getPort()));
+                    break;
+                case "slave":
+                    try {
+                        Slave slave = new Slave(configurator.getZookeeper().getAddress(), configurator.getZookeeper().getPort());
+                        slave.run();
+                        //logger.info("Slave started, master is " + SystemConfig.masterServer + ":" + SystemConfig.masterPort);
+                    } catch (Exception e) {
+                        logger.error(e);
+                    }
+                    break;
+                case "supervisor":
+                    try {
+                        Monitor monitor = new Monitor(configurator.getMaster().getAddress(), configurator.getMaster().getPort());
+                        monitor.run();
+                        //logger.info("monitor started, master is " + SystemConfig.masterServer + ":" + SystemConfig.masterPort);
+                    } catch (Exception e) {
+                        logger.error(e);
+                    }
+                    break;
+                case "console":
+                    try {
+                        Console console = new Console();
+                        console.run();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.error(e);
+                    }
+                    break;
 
-            } else {
-                argsInvaid();
             }
-
-        } else {
-            argsError();
         }
-    }
-
-    /**
-     * Arguments error.
-     */
-    private static void argsError() {
-        logger.error("arguments error,example [master zkServer zkPort] or [slave zkServer zkPort]");
-    }
-
-    /**
-     * Arguments invaid.
-     */
-    private static void argsInvaid() {
-        logger.error("arguments invaid, 0<port<65536.");
+        logger.error("arguments error,example [master | slave | slave | console]");
     }
 }

@@ -2,10 +2,15 @@ package com.iveely.computing.node;
 
 import com.iveely.computing.common.Message;
 import com.iveely.computing.common.Utils;
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
+import com.iveely.framework.net.Internet;
+import com.iveely.framework.net.InternetAddress;
 import com.iveely.framework.net.Packet;
 import com.iveely.framework.net.SyncClient;
-import com.iveely.framework.text.JsonUtil;
+import com.iveely.framework.text.JSONUtil;
+import java.io.IOException;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 
@@ -25,8 +30,8 @@ public class Heartbeat implements Runnable {
         private int usedSlot;
 
         public HearbeatInfo() {
-            this.ipaddress = SystemConfig.crSlaveAddress;
-            this.port = SystemConfig.crSlavePort;
+            this.ipaddress = Internet.getLocalIpAddress();
+            this.port = Configurator.get().getSlave().getPort();
             this.usedSlot = Communicator.getInstance().getUsedSlotCount();
         }
 
@@ -74,7 +79,7 @@ public class Heartbeat implements Runnable {
 
         @Override
         public String toString() {
-            return JsonUtil.beanToJson(this);
+            return JSONUtil.toString(this);
         }
     }
 
@@ -89,8 +94,7 @@ public class Heartbeat implements Runnable {
     private final Logger logger = Logger.getLogger(Heartbeat.class.getName());
 
     public Heartbeat() {
-        SystemConfig.crSlaveAddress = com.iveely.framework.net.Internet.getLocalIpAddress();
-        client = new SyncClient(SystemConfig.masterServer, SystemConfig.masterPort);
+        client = new SyncClient(Configurator.get().getMaster().getAddress(), Configurator.get().getMaster().getPort());
     }
 
     @Override
@@ -106,7 +110,7 @@ public class Heartbeat implements Runnable {
                     String allClients = Message.getString(response.getData());
                     logger.info("All client:" + allClients);
                 }
-                Utils.sleep(SystemConfig.heartbeatSeconds);
+                Utils.sleep(5);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.error("Send heartbeat stoped:" + ex);

@@ -1,8 +1,7 @@
 package com.iveely.computing.config;
 
-import com.iveely.database.LocalStore;
-import com.iveely.database.storage.Types;
-import com.iveely.database.storage.Warehouse;
+import com.iveely.framework.text.JSONUtil;
+import java.io.File;
 
 /**
  * Configurator.
@@ -11,111 +10,69 @@ import com.iveely.database.storage.Warehouse;
  */
 public class Configurator {
 
-    /**
-     * Store warehouse.
-     */
-    private static Warehouse warehouse;
+    private MasterConfig master;
 
-    /**
-     * Master's deploy.
-     */
-    private static MasterDeploy master;
+    private SlaveConfig slave;
 
-    /**
-     * Init.
-     */
-    private static void Init() {
-        if (warehouse == null) {
-            warehouse = LocalStore.getWarehouse("Config");
-            warehouse.createTable("MasterDeploy");
-            warehouse.createColumn("MasterDeploy", "port", Types.INTEGER, false);
-            warehouse.createColumn("MasterDeploy", "server", Types.STRING, false);
+    private ZookeeperConfig zookeeper;
+
+    private Configurator() {
+        Configurator instance = JSONUtil.fromFile(new File("conf/system.json"));
+        if (instance != null) {
+            this.master = instance.getMaster();
+            this.slave = instance.getSlave();
+            this.zookeeper = instance.getZookeeper();
+        } else {
+            this.master = new MasterConfig("127.0.0.1", 8000, 9000, "", "/iveely.computing/master");
+            this.slave = new SlaveConfig(4000, 6000, 6, "/iveely.computing/slave");
+            this.zookeeper = new ZookeeperConfig("127.0.0.1", 2181);
+            JSONUtil.toFile(this, new File("conf/system.json"));
         }
     }
 
     /**
-     * Load config information.
+     * @return the master
      */
-    private static void load() {
-
-        // 1. Init warehouse.
-        Init();
-
-        // 2. Load master.
-        if (master == null) {
-            master = MasterDeploy.GetDefault();
-            Object[] objs = warehouse.selectById("MasterDeploy", 0);
-            if (objs != null) {
-                master.setPort((int) objs[0]);
-                master.setHostAddress((String) objs[1]);
-            } else {
-                warehouse.insert("Config", new Object[]{
-                    master.getPort(),
-                    master.getHostAddress()
-                });
-            }
-        }
+    public MasterConfig getMaster() {
+        return master;
     }
 
     /**
-     * Get master's ip address.
-     *
-     * @return
+     * @param master the master to set
      */
-    public static String getMasterAddress() {
-
-        // 1. Load all information.
-        load();
-
-        // 2. Get and return.
-        return master.getHostAddress();
+    public void setMaster(MasterConfig master) {
+        this.master = master;
     }
 
     /**
-     * Get master's port.
-     *
-     * @return
+     * @return the slave
      */
-    public static int getMasterPort() {
-
-        // 1. Load all information.
-        load();
-
-        // 2. Get and return.
-        return master.getPort();
+    public SlaveConfig getSlave() {
+        return slave;
     }
 
     /**
-     * Update master's address.
-     *
-     * @param address
+     * @param slave the slave to set
      */
-    public static void updateMasterAddress(String address) {
-
-        // 1. Load all information.
-        load();
-
-        // 2. Set in memory.
-        master.setHostAddress(address);
-
-        // 3. Disk update.
-        warehouse.update("MasterDeploy", new Object[]{master.getPort(), master.getHostAddress()}, 0);
+    public void setSlave(SlaveConfig slave) {
+        this.slave = slave;
     }
 
     /**
-     * Update master's port.
-     *
-     * @param port
+     * @return the zookeeper
      */
-    public static void updateMasterPort(int port) {
+    public ZookeeperConfig getZookeeper() {
+        return zookeeper;
+    }
 
-        // 1. Load all inforamtion.
-        load();
+    /**
+     * @param zookeeper the zookeeper to set
+     */
+    public void setZookeeper(ZookeeperConfig zookeeper) {
+        this.zookeeper = zookeeper;
+    }
 
-        // 2. Set in memory.
-        master.setPort(port);
-
-        // 3. Disk update.
-        warehouse.update("MasterDeploy", new Object[]{master.getPort(), master.getHostAddress()}, 0);
+    public static Configurator get() {
+        return new Configurator();
     }
 }

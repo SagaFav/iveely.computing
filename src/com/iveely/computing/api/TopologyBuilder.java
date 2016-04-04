@@ -1,5 +1,6 @@
 package com.iveely.computing.api;
 
+import com.iveely.computing.config.Configurator;
 import com.iveely.computing.status.SystemConfig;
 import com.iveely.computing.zookeeper.ZookeeperClient;
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class TopologyBuilder {
      * @return
      */
     public int getSlaveCount() {
-        int allSlaveCount = ZookeeperClient.getInstance().getChildren(SystemConfig.slaveRoot).size();
+        int allSlaveCount = ZookeeperClient.getInstance().getChildren(Configurator.get().getSlave().getRoot()).size();
         if (this.slaveCount < 1 || this.slaveCount > allSlaveCount) {
             this.slaveCount = allSlaveCount / 2 + 1;
         }

@@ -1,7 +1,7 @@
 package com.iveely.computing.ui;
 
 import com.iveely.computing.zookeeper.ZookeeperClient;
-import com.iveely.framework.text.JsonUtil;
+import com.iveely.framework.text.JSONUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +122,7 @@ public class StatisticSummary {
         }
 
         public String toJson() {
-            return JsonUtil.beanToJson(this);
+            return JSONUtil.toString(this);
         }
     }
 
@@ -192,6 +192,6 @@ public class StatisticSummary {
     }
 
     public String toJson() {
-        return JsonUtil.beanToJson(this);
+        return JSONUtil.toString(this);
     }
 }
